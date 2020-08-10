@@ -1,0 +1,15 @@
+# to start a project
+django-admin startproject {projectname}
+
+# to run the project
+python manage.py runserver
+
+# to create a new application in project
+python manage.py startapp {appname}
+# remember to go to settings.py installed apps, and add new {appname}
+# update views.py, create urlpatterns in urls.py in new {appname} 
+# update urlpatterns in urls.py in {projectname}
+
+
+# create django default database
+python manage.py migrate
