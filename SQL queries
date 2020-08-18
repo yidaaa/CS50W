@@ -1,0 +1,96 @@
+#create a SQL file
+$env:PATH += ';C:\SQLite3'
+& sqlite3.exe
+
+sqlite3 flights.sql
+
+# view better
+.mode columns
+.mode headers yes
+
+# creating a SQL table from cmd:
+
+CREATE TABLE flights (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    origin TEXT NOT NULL,
+    destination TEXT NOT NULL,
+    duration TEXT NOT NULL,
+);
+
+other constrains:
+    - CHECK
+    - DEFAULT
+    - PRIMARY KEY
+    - NOT NULL
+    - UNIQUE
+
+INSERT INTO flights
+    (origin, destination, duration)
+    VALUES ("New York", "London", 415);
+
+UPDATE flights
+    SET duration = 430
+    WHERE origin = "New York"   //if condition(s)
+    AND destination = "London"
+
+DELETE FROM flights WHERE destination = "Tokyo";
+
+# SQL queries
+
+SELECT * FROM flights WHERE id=3 OR duration > 500;
+SELECT origin, destination FROM flights WHERE destination="London";
+SELECT * FROM flights WHERE origin IN ("New York", "Lima");
+SELECT * FROM flights WHERE origin LIKE ("%a%");    //contains letter 'a' 
+
+other clauses:
+    - LIMIT
+    - ORDER BY "id"
+    - GROUP BY "origin"
+    - HAVING count > 3
+
+other functions:
+    - AVERAGE
+    - COUNT
+    - MAX
+    - MIN
+    - SUM
+
+# joining tables
+
+SELECT first, origin, destination 
+FROM flights JOIN passengers
+ON passengers.flight_id = flight.id;
+
+# SQL injections
+
+e.g. 
+select * FROM users WHERE
+username = "username" & password = "password"
+
+if username is hacker" -- 
+select * FROM users WHERE
+username = "hacker" -- " & password = "password"
+
+# Race conditions -- where there are multiple happenings at the same time
+
+
+# django:
+create class in models
+python manage.py makemigrations
+python manage.py migrate
+
+# shell
+python manage.py shell
+
+# insert into DB
+from fights.models import *
+f = Flight(origin="New York", destination="London", duration=415)
+f.save()
+
+# query from DB
+Flight.objects.all()
+Airport.objects.filter(city="New York")
+
+# creating admin account
+python manage.py createsuperuser
+# type in user, email, passwords
