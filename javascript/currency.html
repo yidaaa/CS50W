@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Currency Exchange</title>
+        <script>
+            document.addEventListener('DOMContentLoaded',  function() {
+
+                document.querySelector('form').onsubmit = () => {
+                    
+                    //fetch a promise from API
+                    fetch('https://api.exchangeratesapi.io/latest?base=USD')
+                    // convert response to json
+                    .then(response => response.json())
+                    //using the data 
+                    .then(data => {
+                        const currency = document.querySelector('#currency').value.toUpperCase();
+                        console.log(data);
+                        const rate = data.rates[currency];
+                        if  (rate !== undefined){
+                            document.querySelector('#result').innerHTML = `1USD = ${rate.toFixed(3)}${currency}`
+                        } else {
+                            document.querySelector('#result').innerHTML = "Invalid Currency.";
+                        }
+                        
+                    })
+                    // if it crashes and fetch fails
+                    .catch(error => {
+                        console.log("Error:", error);
+                    });
+
+                    // return false so you dont acutally submit the form to another webpage
+                    return false;
+                }
+            })
+
+        </script>
+    </head>
+    <body>
+        <form>
+            <input id = 'currency' placeholder="currency" type='text'>
+            <input type="submit" value="Convert">
+            <div id="result"></div>
+        </form>
+    </body>
+</html>
