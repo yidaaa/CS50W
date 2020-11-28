@@ -9,6 +9,8 @@
                 submit.disabled = true;
 
                 const entry = document.querySelector('#task');
+
+                 /* using onkeyup */
                 entry.onkeyup = () => {
                     if (entry.value.length>0){
                         submit.disabled = false;
