@@ -1,0 +1,75 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2> {{ listing.title }} </h2>
+
+    <div>
+        Description: {{ listing.description }} <br>
+        Category: {{ listing.category }} <br>
+        Current bid: {{ listing.price }} <br>
+        Item is auctioned by {{ listing.user }} on {{ listing.date }} <br>
+        <img src = {{listing.image_url}} stlye="float: left">
+    </div>
+
+    <div>
+        {% if listing.is_active %}
+            This item is still available for bidding. <br>
+            Currently, 
+            {% if listing.highest_bidder.username %}the highest bid belongs to {{ listing.highest_bidder.username }}.
+            {% else %} there are no bidders.
+            {% endif %}
+        {% elif user.is_authenticated and listing.highest_bidder.username == user.get_username and not listing.is_active %}
+            <p>You have won this auction!</p>
+        {% else %}
+            This item is no longer available.
+        {% endif %} 
+    </div>
+
+    {% if user.is_authenticated and listing.user.username != user.get_username and listing.is_active %}
+        <form action="/view_listing/{{listing.id}}" method="POST">
+            {% csrf_token %}
+            {{ newbid }}
+            <input type="submit" name="add_bid" value="Place Bid">
+            <br>
+            <input type="submit" name="add_watchlist" value="Add to WatchList">
+            <input type="submit" name="remove_watchlist" value="Remove from WatchList">
+        </form>
+    {% elif user.is_authenticated and listing.user.username == user.get_username and listing.is_active %}
+        <form action="/view_listing/{{listing.id}}" method="POST">
+            {% csrf_token %}
+            <br> You can close the auction and sell your item:
+            <input type="submit" name="close_auction" value="Close Auction">
+        </form>
+    {% endif %}
+
+    {% if bid_error %}
+        <script>alert("Error, you need to bid higher than the current bid.")</script>  
+    {% elif already_watching %}
+        <script>alert("Item already in watchlist.")</script>
+    {% elif add_success %}
+        <script>alert("Added item to your watchlist.")</script>
+    {% elif remove_success %}
+        <script>alert("Removed item from your watchlist.")</script>
+    {% elif not_watching %}
+        <script>alert("Item not in watchlist.")</script>
+    {% endif %}
+
+    <h3> Comments: </h3>
+    {% for comment in comments %}
+    <p>
+        <b>{{ comment.user.username }} </b>> {{ comment.comment }}
+    </p>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    <h3> Add Comment: </h3>
+    <form action="/view_listing/{{listing.id}}" method="POST">
+        {% csrf_token %}
+        {{ newcomment }}
+        <input type="submit" name="post_comment" value="Post Comment">
+    </form>
+    {% endif %}
+    
+    
+{% endblock %}

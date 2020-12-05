@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Watchlist</h2>
+
+    {% for auction in watchlist %}
+
+        <div style="border: 2px solid powderblue;"> 
+            <a href = "/view_listing/{{auction.id}}">
+                <img src = {{auction.image_url}} style = "max-height: 100px; max-width: 120px; float: left">
+            </a>
+            Item: {{auction.title}}<br>
+            Description: {{auction.description}}<br>
+            Price: ${{auction.price}}<br>
+            Category: {{auction.category}}
+        </div>
+        {% endfor %}
+{% endblock %}

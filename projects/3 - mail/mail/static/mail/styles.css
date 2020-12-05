@@ -1,0 +1,28 @@
+textarea {
+    min-height: 400px;
+}
+
+.title {
+    font-weight: bold;
+    display: inline-block;
+}
+
+div > #non-title {
+    border-top: medium double black;
+}
+
+#email_sender {
+    padding: 2px;
+    float: left;
+    font-weight: bold;
+}
+
+#email_subject {
+    padding: 2px;
+    padding-left: 10px;
+}
+
+#email_timestamp {
+    padding: 2px;
+    float: right;
+}
