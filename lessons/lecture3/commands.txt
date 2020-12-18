@@ -6,9 +6,10 @@ python manage.py runserver
 
 # to create a new application in project
 python manage.py startapp {appname}
-# remember to go to settings.py installed apps, and add new {appname}
-# update views.py, create urlpatterns in urls.py in new {appname} 
-# update urlpatterns in urls.py in {projectname}
+# settings.py: installed apps, and add new {appname}
+# urls.py: urlpatterns --> path("", include("{projectname}.urls")), 
+# update views.py in {appname}
+# create urlpatterns in urls.py in {appname} 
 
 
 # create django default database
